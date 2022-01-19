@@ -19,9 +19,18 @@ import java.util.logging.Logger;
 public class FolderNotesAdapter extends RecyclerView.Adapter<FolderNotesAdapter.ViewHolder>{
 
     private List<FolderNotes> folderNotesData;
-    public FolderNotesAdapter(List<FolderNotes> dataSet) {
+    private OnItemClickListener onItemClickListener;
+
+    public FolderNotesAdapter(List<FolderNotes> dataSet, OnItemClickListener onItemClickListener) {
         this.folderNotesData = dataSet;
+        this.onItemClickListener = onItemClickListener;
     }
+
+    public interface OnItemClickListener {
+        void onItemClicked(int position);
+        boolean onItemLongClicked(int position);
+    }
+
 
     @NonNull
     @Override
@@ -43,12 +52,30 @@ public class FolderNotesAdapter extends RecyclerView.Adapter<FolderNotesAdapter.
         return this.folderNotesData.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView textView;
 
         public ViewHolder(View view) {
             super(view);
             textView = (TextView) view.findViewById(R.id.item_folder_list);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int pos = getLayoutPosition();
+                    onItemClickListener.onItemClicked(pos);
+
+                }
+            });
+
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    int pos = getLayoutPosition();
+                    onItemClickListener.onItemLongClicked(pos);
+                    return true;
+                }
+            });
         }
         public TextView getTextView() {
             return textView;

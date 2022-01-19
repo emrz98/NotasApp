@@ -12,6 +12,8 @@ import android.content.Intent;
 import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -35,9 +37,10 @@ import io.reactivex.Flowable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
-public class MainActivity extends AppCompatActivity implements AddFolderDialog.OnSaveNewFolder{
+public class MainActivity extends AppCompatActivity implements AddFolderDialog.OnSaveNewFolder, FolderNotesAdapter.OnItemClickListener{
 
     private RecyclerView recyclerView;
+
     private AppDatabase db;
     private FloatingActionButton addButton;
     private RecyclerView.Adapter adapterFolderNotes;
@@ -65,8 +68,9 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
         }
 
         // Se configura el recycler view
-        adapterFolderNotes = new FolderNotesAdapter(dummyData);
+        adapterFolderNotes = new FolderNotesAdapter(dummyData, this);
         recyclerView = findViewById(R.id.foldersRecycler);
+        registerForContextMenu(recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(adapterFolderNotes);
 
@@ -106,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
         return future.get();
     }
 
+    // Guardar nuevo folder ya actualizar los datos en el recycler
     @Override
     public void onFolderSaved(FolderNotes folderNotes) throws ExecutionException, InterruptedException {
         // Guarda el nuevo folder
@@ -132,11 +137,36 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
 
     }
 
+    // Usado en la generacion del dialog para agregar carpetas
     @Override
     public void onAttachFragment(@NonNull Fragment fragment) {
         if (fragment instanceof AddFolderDialog){
             AddFolderDialog addFolderDialog = (AddFolderDialog) fragment;
             addFolderDialog.setOnSaveNewFolder(this);
         }
+    }
+
+
+
+    // On click de items del recycler atraves de una interfaz
+    @Override
+    public void onItemClicked(int position) {
+        Toast.makeText(this, "Short Click" + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onItemLongClicked(int position) {
+        Toast.makeText(this, "Long Click" + position, Toast.LENGTH_SHORT).show();
+        return true;
+    }
+
+    // TODO : implementar context menu al hacer on long click en los items del recycler para eliminar elementos
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+    }
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        return super.onContextItemSelected(item);
     }
 }
