@@ -13,6 +13,7 @@ import android.icu.text.CaseMap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -160,13 +161,11 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
         return true;
     }
 
-    // TODO : implementar context menu al hacer on long click en los items del recycler para eliminar elementos
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
+    public void deleteItem(int position) {
+        folderRepository.deleteFolder(dummyData.get(position));
+        dummyData.remove(position);
+        adapterFolderNotes.notifyDataSetChanged();
     }
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item) {
-        return super.onContextItemSelected(item);
-    }
+
 }

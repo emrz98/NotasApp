@@ -7,4 +7,5 @@ import java.util.List;
 public interface FolderRepository {
     List<FolderNotes> getAllFolders();
     void insertFolder(FolderNotes folderNotes);
+    void deleteFolder(FolderNotes folderNotes);
 }

@@ -20,4 +20,9 @@ public class FolderRepositoryImpl implements FolderRepository{
     public void insertFolder(FolderNotes folderNotes) {
         folderDao.insertFolder(folderNotes);
     }
+
+    @Override
+    public void deleteFolder(FolderNotes folderNotes) {
+        folderDao.deleteFolder(folderNotes);
+    }
 }

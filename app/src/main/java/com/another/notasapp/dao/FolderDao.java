@@ -1,6 +1,7 @@
 package com.another.notasapp.dao;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -19,6 +20,9 @@ public interface FolderDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFolder(FolderNotes folderNote);
+
+    @Delete
+    void deleteFolder(FolderNotes folderNote);
 
 
 }
