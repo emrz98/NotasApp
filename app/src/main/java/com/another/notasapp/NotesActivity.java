@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.another.notasapp.R;
 import com.another.notasapp.adapters.FolderNotesAdapter;
@@ -24,7 +26,9 @@ public class NotesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recycler_notas2);
 
         rView = findViewById(R.id.recyclerViewNotas);
-
+        Bundle bundle = getIntent().getExtras();
+        int noteId = bundle.getInt("noteId", 0);
+        Toast.makeText(this, String.valueOf(noteId), Toast.LENGTH_SHORT).show();
         List<Notes> dummyData = new ArrayList<>();
         Notes Notes = new Notes();
         Notes Notes2 = new Notes();

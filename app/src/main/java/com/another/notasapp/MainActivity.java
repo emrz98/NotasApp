@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
         db = AppDatabase.getInstance(this.getApplicationContext());
         folderRepository = new FolderRepositoryImpl(db.folderDao());
 
-        Button nextActivity = findViewById(R.id.nextActivity);
         // Se crea una lista de objetos dummy para hacer pruebas
         dummyData = null;
         try {
@@ -77,15 +76,6 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
 
         // Se notifica el cambio en el adapter
         adapterFolderNotes.notifyDataSetChanged();
-
-        nextActivity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent nextAct = new Intent(MainActivity.this, NotesActivity.class);
-                startActivity(nextAct);
-
-            }
-        });
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -152,7 +142,11 @@ public class MainActivity extends AppCompatActivity implements AddFolderDialog.O
     // On click de items del recycler atraves de una interfaz
     @Override
     public void onItemClicked(int position) {
-        Toast.makeText(this, "Short Click" + position, Toast.LENGTH_SHORT).show();
+        Intent nextAct = new Intent(MainActivity.this, NotesActivity.class);
+        int id = dummyData.get(position).getUid();
+        nextAct.putExtra("noteId",id);
+        startActivity(nextAct);
+        //Toast.makeText(this, "Short Click" + position, Toast.LENGTH_SHORT).show();
     }
 
     @Override
